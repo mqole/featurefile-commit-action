@@ -39,7 +39,7 @@ function updateSummary(feature : string, modified : {key : string, value : strin
 }
 
 function writeNew(fileName : string, modified : {key : string, value : string[]}[], added : {key : string, value : string[]}[], removed : {key : string, value : string[]}[]) {
-    fs
+    fs.readFile()
 }
  
 run();
