@@ -1,0 +1,22 @@
+{
+  "name": "featurefile-commit-action",
+  "version": "1.0.0",
+  "description": "Action to generate a Feature File from a provided summary.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/main.js -o dist"
+  },
+  "keywords": [],
+  "type": "module",
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
+    "@vercel/ncc": "^0.45.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
+  }
+}

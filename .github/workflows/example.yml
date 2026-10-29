@@ -1,0 +1,57 @@
+name: Write Feature File
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  content: write
+
+jobs:
+  check:
+    name: Check PR
+    runs-on: ubuntu-latest
+    outputs:
+      body-found: ${{ steps.feature.outputs.body-found }}
+      summary: ${{ steps.feature.outputs.summary }}
+      modFiles: ${{ steps.feature.outputs.modFiles }}
+      addFiles: ${{ steps.feature.outputs.addFiles }}
+      remFiles: ${{ steps.feature.outputs.remFiles }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Get changed files
+        id: files
+        uses: Ana06/get-changed-files@a6591c950d92e67595be3ccd71324cef32c4b7ab #v2.1.0
+
+      - name: Generate Feature File summary
+        id: feature
+        uses: mqole/featurefile-pr-action@1d6de080d5edb175dc845d977e94c915cc7faf2c
+        with:
+          modified: ${{ steps.files.outputs.modified }}
+          removed: ${{ steps.files.outputs.removed }}
+          added: ${{ steps.files.outputs.added }}
+          basename: ${{ github.event.pull_request.base.repo.full_name }}
+          basesha: ${{ github.event.pull_request.base.sha }}
+          headname: ${{ github.event.pull_request.head.repo.full_name }}
+          headsha: ${{ github.event.pull_request.head.sha }}
+
+  write:
+    name: Write Feature File
+    runs-on: ubuntu-latest
+    needs: check
+    if: ${{ needs.check.outputs.body-found == 'true' }}
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: main
+      - name: Get all existing Feature Files
+        uses: jeertmans/filesfinder@17d855f54a1359a5f1aad0f02fd0a3d110decf0e # v0.5.1
+        id: ff 
+        with:
+          args: -r "docs/.*\.md"
+      - name: DEBUG, print files
+        run: |
+          echo ${{ steps.ff.outputs.files }}

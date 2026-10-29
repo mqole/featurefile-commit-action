@@ -1,0 +1,16 @@
+name: Generate Feature File
+description: Composes a Feature File from a provided summary, potentially using an existing file in the docs repo.
+
+inputs:
+  modified:
+    description: A list of modified files.
+  removed:
+    description: A list of removed files.
+  added:
+    description: A list of changed files.
+  fileList:
+    description: A list of feature files in the docs repo.
+
+runs:
+  using: node24
+  main: dist/index.js
