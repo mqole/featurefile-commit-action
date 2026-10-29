@@ -8,9 +8,9 @@ import os
 
 fileList = str(sys.argv[1])
 filePath = str('../../'+sys.argv[2])
-fileList = fileList.split(',')
 
 print('File list: '+fileList)
+fileList = fileList.split(',')
 os.chdir(filePath) # cd back out of this repo & into docs repo
 print('File path: '+os.getcwd())
 
